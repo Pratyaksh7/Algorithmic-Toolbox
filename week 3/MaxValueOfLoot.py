@@ -1,36 +1,40 @@
 # using python3
 
-def knapsack(n, W, profits, weights):
-    ratios = [profits[i] / weights[i] for i in range(n)]
-    objects_included = [0] * n
+def knapsack(W, weights, profits):
+    ratios = [profits[i]/weights[i] for i in range(len(weights))]
+    objects_included = [0] * len(weights)
     total_profit = 0
-    ratios_index = [i for i in range(n)]
+    while W > 0:
 
-    for i in range(n):
-        for j in range(i, 0, -1):
-            if ratios[j] > ratios[j - 1]:
-                ratios[j], ratios[j - 1] = ratios[j - 1], ratios[j]
-                ratios_index[j], ratios_index[j -
-                                              1] = ratios_index[j - 1], ratios_index[j]
+        for _ in range(len(weights)):
+            maxRatioIndex = ratios.index(max(ratios))
+            if weights[maxratioIndex] > W:
+                W = 0
+                objects_included[maxRatioIndex] = W/weights[maxRatioIndex]
             else:
-                break
+                W = W - weights[maxRatioIndex]
+                objects_included[maxRatioIndex] = 1
+            ratios.remove(ratios[maxRatioIndex])
+            weights.remove(weights[maxRatioIndex])
 
-    for index in ratios_index:
-        if W < weights[index]:
-            objects_included[index] = W / weights[index]
-            break
-        else:
-            W = W - weights[index]
-            objects_included[index] = 1
-
-    for i in range(n):
-        total_profit += profits[i] * objects_included[i]
+        for i in range(len(weights)):
+            total_profit += (profits[i]*objects_included[i])
 
     return total_profit
 
 
 n, W = map(int, input().split())
-profits_weights = [list(map(int, input().split())) for i in range(n)]
+list1 = []
+for i in range(n):
+    val, weight = map(int, input().split())
+    list1.append([val, weight])
 
-print("%.4f" % knapsack(n, W, [profits_weights[i][0] for i in range(n)], [
-      profits_weights[i][1] for i in range(n)]))
+profits = []
+weights = []
+list1 = dict(list1)
+for i, j in list1.items():
+    profits.append(i)
+    weights.append(j)
+
+opt_value = knapsack(W, weights, profits)
+print("{:.4f}".format(opt_value))
