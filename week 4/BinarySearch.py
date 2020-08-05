@@ -1,17 +1,4 @@
-def binarySearch(arrA, low, high, x):
-    while low <= high:
-        mid = int((low+high)/2)
-
-        if arrA[mid] == x:
-            return mid
-        elif arrA[mid] < x:
-            l = mid+1
-        else:
-            r = mid-1
-
-    return -1
-
-
+# using python3
 A = list(map(int, input().split()))
 n = A[0]
 arrA = A[1:]
@@ -19,10 +6,9 @@ B = list(map(int, input().split()))
 k = B[0]
 arrB = B[1:]
 
-output = []
-
+indexes = {arrA[i]: i for i in range(n)}
 for i in range(k):
-    result = binarySearch(arrA, 0, len(arrA)-1, arrB[i])
-    output.append(result)
-
-print(output)
+    if arrB[i] in indexes:
+        print(indexes.get(arrB[i]), end=' ')
+    else:
+        print(-1, end=' ')
