@@ -25,5 +25,6 @@ l2 = list(map(int, input().split()))
 l = int(input())
 l3 = list(map(int, input().split()))
 
+# 3D array initialized with -1
 t = [[[-1 for k in range(l+1)] for j in range(m+1)] for i in range(n+1) ]
 print(lcs3(l1,l2,l3,n,m,l))
